@@ -7,7 +7,7 @@ permissions:
 
 jobs:
   validate-pr:
-    if: github.repository == 'yosiroute/cf'
+    if: github.repository == 'yosiroute/belle_image'
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
